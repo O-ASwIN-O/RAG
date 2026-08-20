@@ -28,12 +28,7 @@ class Chunk:
 
 
 def load_pdf_text(pdf_path: str | Path) -> list[tuple[int, str]]:
-    """Extract text from a PDF, page by page.
 
-    Returns a list of (page_number, page_text) tuples so we can keep
-    track of provenance -- useful later when we want to show the user
-    *which page* an answer came from.
-    """
     reader = PdfReader(str(pdf_path))
     pages = []
     for i, page in enumerate(reader.pages, start=1):
@@ -49,18 +44,7 @@ def chunk_text(
     chunk_size: int = 800,
     overlap: int = 150,
 ) -> list[str]:
-    """Split text into overlapping windows, measured in characters.
 
-    chunk_size=800 chars is roughly 150-200 words -- small enough to
-    stay topically focused, big enough to contain a full idea.
-    overlap=150 chars means each chunk repeats the tail of the previous
-    one, so an idea that spans a chunk boundary isn't lost.
-
-    Example with chunk_size=10, overlap=3 on "ABCDEFGHIJKLMNOP":
-        chunk 0: "ABCDEFGHIJ"      (chars 0-10)
-        chunk 1: "HIJKLMNOPQ"[:10] (starts at 10-3=7)
-        ...and so on, always stepping forward by (chunk_size - overlap).
-    """
     if chunk_size <= overlap:
         raise ValueError("chunk_size must be greater than overlap")
 
@@ -76,7 +60,7 @@ def chunk_text(
 
 
 def ingest_pdf(pdf_path: str | Path, chunk_size: int = 800, overlap: int = 150) -> list[Chunk]:
-    """Full pipeline for one PDF: load -> chunk -> attach metadata."""
+
     pdf_path = Path(pdf_path)
     pages = load_pdf_text(pdf_path)
 

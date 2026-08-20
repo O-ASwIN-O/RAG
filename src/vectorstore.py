@@ -52,13 +52,7 @@ class VectorStore:
         )
 
     def query(self, question: str, top_k: int = 10) -> list[dict]:
-        """Embed the question, return the top_k nearest chunks.
-
-        top_k is deliberately larger than what you'd show the LLM
-        (e.g. 10 here, but only 3-4 make it to the final prompt) --
-        we retrieve a wider net cheaply, then let the re-ranker narrow
-        it down accurately.
-        """
+        
         q_vector = self.embedder.encode([question], normalize_embeddings=True)[0]
         results = self.collection.query(
             query_embeddings=[q_vector.tolist()],

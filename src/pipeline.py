@@ -32,14 +32,7 @@ class DocQAPipeline:
         retrieve_k: int = 10,
         rerank_k: int = 4,
     ) -> dict:
-        """Run the full pipeline for one question.
 
-        retrieve_k: how many chunks the fast vector search pulls back
-                    (a wide, cheap net).
-        rerank_k:   how many of those the cross-encoder keeps after
-                    scoring (a narrow, accurate final selection --
-                    this is what actually goes to the LLM).
-        """
         # Stage 1: cheap approximate retrieval
         candidates = self.store.query(question, top_k=retrieve_k)
         if not candidates:
