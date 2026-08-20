@@ -1,0 +1,14 @@
+# --- RAG core ---
+sentence-transformers>=3.0.0   # embeddings + cross-encoder re-ranker
+chromadb>=0.5.0                # local vector database
+pypdf>=4.0.0                   # PDF text extraction
+
+# --- LLM (local, via Ollama) ---
+ollama>=0.3.0                  # python client for your local Ollama server
+
+# --- UI ---
+streamlit>=1.35.0
+
+# --- Training the re-ranker ---
+torch>=2.2.0                   # sentence-transformers needs this anyway
+pandas>=2.0.0                  # for reading/writing training pairs
